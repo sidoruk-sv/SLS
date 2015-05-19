@@ -6,5 +6,14 @@
 </head>
 <body>
   <script src="js/all.js"></script>
+  <script>
+    array = [1,2,3]
+
+    some1 = sForEach(array, function(el){ console.log(el) }) // console log 1, 2, 3
+    some2 = sMap(array, function(el){ return el*3 }) // [3, 6, 9]
+    some3 = sFilter(array, function(el){ return el >2 }) // [3]
+    console.log(some1,some2,some3)
+
+  </script>
 </body>
 </html>

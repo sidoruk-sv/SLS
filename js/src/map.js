@@ -5,9 +5,9 @@ sMap = function (array, iterator) {
 
   if (Object.prototype.toString.call(array) !== '[object Array]') {
 
-    for (var j in array) {
-      if (array.hasOwnProperty(j)) {
-        buffArray.push(iterator(array[j], j, array))
+    for (var key in array) {
+      if (array.hasOwnProperty(key)) {
+        buffArray.push(iterator(array[key], key, array))
       }
     }
 

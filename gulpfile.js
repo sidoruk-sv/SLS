@@ -1,27 +1,33 @@
 var gulp = require('gulp'),
-    qunit = require('gulp-qunit'),
-    concat = require('gulp-concat');
+    qunit = require('node-qunit-phantomjs'),
+    concat = require('gulp-concat'),
+    del = require('del');
 
-gulp.task('scripts', function() {
+gulp.task('js-scripts', ['clean-js'], function() {
   return gulp.src('./js/src/*.js')
     .pipe(concat('all.js'))
     .pipe(gulp.dest('./js/'));
 });
+gulp.task('clean-js', function(cb) {
+  del(['js/all.js'], cb);
+});
 
-gulp.task('test-scripts', function() {
+gulp.task('test-scripts', ['clean-tests'], function() {
   return gulp.src('./tests/*.js')
     .pipe(concat('tests.js'))
     .pipe(gulp.dest('./tests/'));
 });
+gulp.task('clean-tests', function(cb) {
+  del(['tests/tests.js'], cb);
+});
 
-gulp.task('tests', function() {
-    return gulp.src('./tests/test.html')
-        .pipe(qunit());
+gulp.task('qunit', function() {
+    qunit('./tests/test.html', { 'verbose': true });
 });
 
 gulp.task('watch', function() {
-  gulp.watch(['js/src/*.js'], ['scripts', 'test-scripts','tests']);
+  gulp.watch(['js/src/*.js'], ['js-scripts', 'test-scripts', 'qunit']);
 });
 
 
-gulp.task('default', ['watch', 'scripts', 'test-scripts', 'tests']);
+gulp.task('default', ['watch', 'js-scripts', 'test-scripts', 'qunit']);

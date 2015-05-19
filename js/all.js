@@ -17,7 +17,7 @@ sFilter = function (array, iterator) {
 
     for (var i = 0; i < array.length; i++) {
       if (iterator(array[i])) {
-        buffArray.push(array[i]+1);
+        buffArray.push(array[i]);
       }
     }
 
@@ -25,8 +25,26 @@ sFilter = function (array, iterator) {
   return buffArray;
 };
 
-sForEach = function (array) {
+sForEach = function (array, iterator) {
+if (!array) return;
+  if (!iterator) return array;
+  var buffArray = [];
 
+  if (Object.prototype.toString.call(array) !== '[object Array]') {
+    for (var key in array) {
+      if (array.hasOwnProperty(key)) {
+        iterator(array[key], key, array)
+      }
+    }
+
+  } else {
+
+    for (var i = 0; i < array.length; i++) {
+      iterator(array[i])
+    }
+
+  }
+  return buffArray;
 };
 sMap = function (array, iterator) {
   if (!array) return;
@@ -35,9 +53,9 @@ sMap = function (array, iterator) {
 
   if (Object.prototype.toString.call(array) !== '[object Array]') {
 
-    for (var j in array) {
-      if (array.hasOwnProperty(j)) {
-        buffArray.push(iterator(array[j], j, array))
+    for (var key in array) {
+      if (array.hasOwnProperty(key)) {
+        buffArray.push(iterator(array[key], key, array))
       }
     }
 
