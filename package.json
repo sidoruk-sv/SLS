@@ -1,0 +1,29 @@
+{
+  "name": "SLS",
+  "version": "1.0.0",
+  "description": "Some learning stuff",
+  "main": "gulpfile.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "gulp": "^3.8.11",
+    "gulp-concat": "^2.5.2",
+    "gulp-qunit": "^1.2.1",
+    "node-qunit-phantomjs": "^1.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sidoruk-sv/SLS.git"
+  },
+  "author": "sidoruk-sv",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sidoruk-sv/SLS/issues"
+  },
+  "homepage": "https://github.com/sidoruk-sv/SLS"
+}

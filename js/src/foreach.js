@@ -1,0 +1,3 @@
+sForEach = function (array) {
+
+};
