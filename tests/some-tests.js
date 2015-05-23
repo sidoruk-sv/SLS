@@ -1,11 +1,19 @@
-QUnit.test("Some tests", function (assert) {
-  assert.ok(sSome([1, 2, 3, 4, 5, 6], 5), 'if number in array');
-  assert.ok(sSome({a:1, b:2, c:3}, 2), 'if number in object value');
+QUnit.test("sSome/sSome tests", function (assert) {
+  assert.ok(sSome([1, 2, 3, 4, 5, 6]), 'default array working');
+  assert.ok(sSome({a:1, b:2, c:3}), 'default object working');
+  assert.ok(sSome({a:'s',as:undefined, d:null,f:[]}), 'find in set of falsy');
+  days = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday'
+  ]
+  assert.ok(sSome(days, function(day) { return day.toLowerCase() === 'monday' }), 'find monday in array')
 
-  assert.notOk(sSome([null, 1,23,3], false), 'if false in array');
-  assert.notOk(sSome([1, undefined, 1,23,3], false), 'if false in array');
-  assert.notOk(sSome([1, 0, 1,23,3], false), 'if false in array');
-  assert.notOk(sSome([1, 2, 3, 4, 5, 6], false), 'if false in array of values');
-  assert.notOk(sSome([1, 2, 3, 4, 5, 6], false), 'if number in array');
-  assert.notOk(sSome({a:1, b:2, c:3}, 5), 'if number in object value');
+  assert.notOk(sSome(days, function(day) { return day.toLowerCase === 'june' }), 'cant find june in array')
+  assert.notOk(sSome([false, null,0,undefined]), 'anything in array of falsy');
+  assert.notOk(sSome({a: false, b: null, c:0, d:undefined}), 'anything in object with falsy values');
 });
