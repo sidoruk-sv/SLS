@@ -1,7 +1,9 @@
-sReduce = function (list, iterator, memo){
+function sReduce (list, iterator, memo){
   if (!list) return;
   if (!iterator) return;
-  var  num, result, collection = list, index = 0;
+  var  num, result,
+  index = 0,
+  collection = list;
 
   if (Object.prototype.toString.call(collection) !== '[object Array]') {
     if(!memo){
@@ -24,5 +26,4 @@ sReduce = function (list, iterator, memo){
  	  }
  	  return memo
   }
-
 }

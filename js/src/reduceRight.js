@@ -1,4 +1,4 @@
-sReduceRigth = function (list, iterator, memo){
+function sReduceRight(list, iterator, memo){
   if (!list) return;
   if (!iterator) return;
   var  num, result, collection = list, lastIndex;
