@@ -1,4 +1,4 @@
-sFilter = function (array, iterator) {
+function sFilter (array, iterator) {
   if (!array) return;
   if (!iterator) return array;
   var buffArray = [];
@@ -20,7 +20,6 @@ sFilter = function (array, iterator) {
         buffArray.push(array[i]);
       }
     }
-
   }
   return buffArray;
 };

@@ -1,4 +1,4 @@
-sMap = function (array, iterator) {
+function sMap (array, iterator) {
   if (!array) return;
   if (!iterator) return array;
   var buffArray = [];

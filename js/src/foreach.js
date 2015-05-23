@@ -1,6 +1,6 @@
-sForEach = function (array, iterator) {
+function sForEach (array, iterator) {
 if (!array) return;
-  if (!iterator) return array;
+  if (!iterator) return;
 
   if (Object.prototype.toString.call(array) !== '[object Array]') {
     for (var key in array) {
