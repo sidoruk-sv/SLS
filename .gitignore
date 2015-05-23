@@ -10,3 +10,5 @@ Thumbs.db
 
 .idea
 node_modules
+tests/tests.js
+js/all.js
