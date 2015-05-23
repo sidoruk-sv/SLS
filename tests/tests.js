@@ -1,7 +1,19 @@
-QUnit.test( "sEvery test", function( assert ) {
-  assert.ok(sEvery([true, '0',1, 'false', 'undefined', {a:'a'}, [0]], true), 'check ok');
+QUnit.test( "sContains test", function( assert ) {
+  assert.ok(sContains([1,1,1], true), 'check ok if true in [1,1,1]');
+  assert.ok(sContains([true, 1], true), 'check ok if true in [true, 1]');
+  assert.ok(sContains([true, '0', 1, 'false', 'undefined', {a:'a'}, [0]], true), 'check ok, if true in array');
+  assert.ok(sContains([0, null, false, undefined, ''], false), 'check ok, if false in array of falsy');
 
-  assert.notOk(sEvery([true, false, 0,1, undefined, 'undefined', null, 'null'], true), 'check not ok');
+  assert.notOk(sContains(['', false, 0, undefined, null], true), 'check not ok');
+});
+
+QUnit.test( "sEvery test", function( assert ) {
+  assert.ok(sEvery([1,1,1], true), 'check ok if true in [1,1,1]');
+  assert.ok(sEvery([true, 1], true), 'check ok if true in [true, 1]');
+  assert.ok(sEvery([true, '0', 1, 'false', 'undefined', {a:'a'}, [0]], true), 'check ok, if true in array');
+  assert.ok(sEvery([0, null, false, undefined, ''], false), 'check ok, if false in array of falsy');
+
+  assert.notOk(sEvery([true, '', false, 0,1, undefined, 'undefined', null, 'null'], true), 'check not ok');
 });
 
 QUnit.test( "sFilter test", function( assert ) {
@@ -43,38 +55,47 @@ QUnit.test( "sMap test", function( assert ) {
 
 QUnit.test("sReduceRight tests", function (assert) {
 
-  assert.equal(sReduceRight([[0, 1], [2, 3], [4, 5]], function(a, b) { return a.concat(b); }, []), [4, 5, 2, 3, 0, 1], " array of arrays to array of elements");
+  assert.deepEqual(sReduceRight([[0, 1], [2, 3], [4, 5]], function(a, b) { return a.concat(b); }, []), [4, 5, 2, 3, 0, 1], " array of arrays to array of elements");
 });
-QUnit.test("Reduce tests", function (assert) {
+QUnit.test("sReduce tests", function (assert) {
   assert.equal(sReduce([1, 2, 3, 4], function(memo, current){ return memo + current}, 200), 210, 'memo + current');
   assert.equal(sReduce([1, 2, 3, 4], function(memo, current){ return memo * current}, 1), 24, 'memo * current');
   assert.equal(sReduce({a:'a', b:'b', c:'c'}, function(memo, current){ return memo + current}, 1), '1abc', 'objects memo + current');
   assert.equal(sReduce([1, 2, 3], function(memo, current) { return memo + current; }), 6, '[1,2,3] (memo + current) === [1,2,3] (memo*current)');
-  assert.deepEqual(sReduce([[1,2], [2, 3], [3,4,5,[6,7]]], function(memo, current) { return memo.concat(current); }, []), [1,2,3,4,5,[6,7]], '[1,2,3] (memo + current) === [1,2,3] (memo*current)');
+  assert.deepEqual(sReduce([[1,2], [3, 4], [5,6,7,[8,9]]], function(memo, current) { return memo.concat(current); }, []), [1,2,3,4,5,6,7,[8,9]], '[1,2,3] (memo + current) === [1,2,3] (memo*current)');
 
   assert.notOk(sReduce(), "test if no list provided");
   assert.notOk(sReduce([1, 2, 3]), "test if no iterator function");
   assert.notEqual(sReduce([1, 1, 1, 1], function(memo, current){ return memo * current}), 2, 'memo * current');
 });
-QUnit.test("Reduce tests", function (assert) {
-  assert.equal(sReject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; }), [1,3,5], 'get odds by reject evens');
+QUnit.test("sReject tests", function (assert) {
+  assert.deepEqual(sReject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; }), [1,3,5], 'get odds by reject evens');
 });
 QUnit.test("Size tests", function (assert) {
-  assert.equal(sSize([0, 1, 2, 3, 'asd', [11,2,3], {asd:'ds', add:'adsa'}]), 4, 'detect size array');
+  assert.equal(sSize([0, 1, 2, 3, 'asd', [11,2,3], {asd:'ds', add:'adsa'}]), 7, 'detect size array');
   assert.equal(sSize({a:'a', b:'b', c:'c'}), 3, 'detect size object');
   assert.equal(sSize([0, 0, 0, 0,0]), 5, 'detect size array');
 });
-QUnit.test("Some tests", function (assert) {
-  assert.ok(sSome([1, 2, 3, 4, 5, 6], 5), 'if number in array');
-  assert.ok(sSome({a:1, b:2, c:3}, 2), 'if number in object value');
+QUnit.test("sSome/sSome tests", function (assert) {
+  assert.ok(sSome([1, 2, 3, 4, 5, 6]), 'default array working');
+  assert.ok(sSome({a:1, b:2, c:3}), 'default object working');
+  assert.ok(sSome({a:'s',as:undefined, d:null,f:[]}), 'find in set of falsy');
+  days = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday'
+  ]
+  assert.ok(sSome(days, function(day) { return day.toLowerCase() === 'monday' }), 'find monday in array')
 
-  assert.notOk(sSome([null, 1,23,3], false), 'if false in array');
-  assert.notOk(sSome([1, undefined, 1,23,3], false), 'if false in array');
-  assert.notOk(sSome([1, 0, 1,23,3], false), 'if false in array');
-  assert.notOk(sSome([1, 2, 3, 4, 5, 6], false), 'if false in array of values');
-  assert.notOk(sSome([1, 2, 3, 4, 5, 6], false), 'if number in array');
-  assert.notOk(sSome({a:1, b:2, c:3}, 5), 'if number in object value');
+  assert.notOk(sSome(days, function(day) { return day.toLowerCase === 'june' }), 'cant find june in array')
+  assert.notOk(sSome([false, null,0,undefined]), 'anything in array of falsy');
+  assert.notOk(sSome({a: false, b: null, c:0, d:undefined}), 'anything in object with falsy values');
 });
+
 QUnit.test( "sWhere test", function( assert ) {
   var listOfPlays = [
     {title: "Cymbeline", author: "Shakespeare", year: 1611},
