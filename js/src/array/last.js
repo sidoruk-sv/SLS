@@ -9,8 +9,5 @@ function sLast(array, n){
   } else {
     n = array.length - 1
   }
-  if ( n >= array.length){
-      n = 0
-  }
   return array.slice(n, array.length)
 }
