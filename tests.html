@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Tests for functions</title>
+  <link rel="stylesheet" href="./vendor/qunit-1.18.0.css">
+  <link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.18.0.css">
+  <style>
+    body{
+      background:#000;
+    }
+  </style>
+</head>
+<body>
+<div id="qunit"></div>
+<div id="qunit-fixture"></div>
+<script src="./vendor/qunit-1.18.0.js"></script>
+<script src="http://code.jquery.com/qunit/qunit-1.18.0.js"></script>
+<script src="./js/all.js"></script>
+<script src="./tests/tests.js"></script>
+<script>
+  array = [0, 1, 2, 3, 4, 6, 7]
+  arr2 = [1]
+  first0 = sRest(array)
+  first2 = sRest(arr2)
+  first3= sRest(array, 9)
+  first4= sRest(array, 3)
+  console.log('array', array)
+  console.log('fisrt', first0)
+  console.log('second (array2)', first2)
+  console.log('last', first3)
+  console.log('fourth', first4)
+
+  console.log('123', sCompact([0, 1, false, 2, '', 3]))
+</script>
+</body>
+</html>
