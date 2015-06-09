@@ -4,7 +4,7 @@ var gulp = require('gulp'),
     del = require('del');
 
 gulp.task('js-scripts', ['clean-js'], function() {
-  return gulp.src('./js/src/*.js')
+  return gulp.src('./js/src/**/*.js')
     .pipe(concat('all.js'))
     .pipe(gulp.dest('./js/'));
 });
@@ -13,7 +13,7 @@ gulp.task('clean-js', function(cb) {
 });
 
 gulp.task('test-scripts', ['clean-tests'], function() {
-  return gulp.src('./tests/*.js')
+  return gulp.src('./tests/**/*.js')
     .pipe(concat('tests.js'))
     .pipe(gulp.dest('./tests/'));
 });
@@ -22,7 +22,7 @@ gulp.task('clean-tests', function(cb) {
 });
 
 gulp.task('qunit', function() {
-    qunit('./tests/test.html', { 'verbose': true });
+    qunit('test.html', { 'verbose': true });
 });
 
 gulp.task('watch', function() {
