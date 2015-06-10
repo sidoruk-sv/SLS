@@ -1,25 +1,28 @@
 var  sContains = function (array, predicate) {
   if (!array) return;
-  var result;
 
   if (Object.prototype.toString.call(array) !== '[object Array]') {
     for (var key in array) {
       if (array.hasOwnProperty(key)) {
-        if (array[key] == predicate || typeof array[key] === 'undefined'){
-          result = true
+        if (array[key] == predicate){
+          return true
         }
       }
     }
   } else {
     for (var i = 0; i < array.length; i++) {
       if (array[i] == predicate){
-        result = true
+        return true
       }
     }
   }
-  return result;
+
+  return false;
 };
 
+function sCountBy (list, iteratee) {
+  return
+}
 function sEvery (array, predicate) {
   if (!array) return;
   var buffArray = [];
@@ -38,6 +41,7 @@ function sEvery (array, predicate) {
   return !sSome(buffArray, false);
 };
 
+
 function sFilter (array, iterator) {
   if (!array) return;
   if (!iterator) return array;
@@ -48,7 +52,7 @@ function sFilter (array, iterator) {
     for (var key in array) {
       if (array.hasOwnProperty(key)) {
         if (iterator(array[key], key, array)) {
-          buffArray.push(array[key])
+          buffArray.push(array)
         }
       }
     }
@@ -86,7 +90,7 @@ function sFind (array, iterator) {
 };
 
 function sForEach (array, iterator) {
-if (!array) return;
+  if (!array) return;
   if (!iterator) return;
 
   if (Object.prototype.toString.call(array) !== '[object Array]') {
@@ -103,6 +107,17 @@ if (!array) return;
 
   }
 };
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function sGroupBy (list, iteratee) {
+  return
+}
+function sIndexBy (list, iteratee) {
+  return
+}
+
 function sMap (array, iterator) {
   if (!array) return;
   if (!iterator) return array;
@@ -125,6 +140,9 @@ function sMap (array, iterator) {
   }
   return buffArray;
 };
+
+
+
 
 function sReduce (list, iterator, memo){
   if (!list) return;
@@ -216,6 +234,63 @@ function sReject (array, iterator) {
   return buffArray;
 };
 
+function sSample(list, n){
+  if (!list) return;
+  n = typeof n !== 'undefined' ? n : 1;
+  var buffArray=[], i;
+
+  if (Object.prototype.toString.call(list) !== '[object Array]') {
+    for (var key in array) {
+      console.log('list,n', list,n)
+    }
+  } else {
+    for (i = 0; i < n; i++) {
+      randomIndex = getRandomInt(0, list.length-1)
+      buffArray.push(list[randomIndex])
+    }
+  }
+
+  console.log('list, n,buffarray',list,n, buffArray)
+  if (buffArray.length < 2){
+    result = buffArray[0]
+  } else {
+    result = buffArray
+  }
+  return result
+
+}
+function sShuffle (list){
+  if (!list) return;
+  var n = list.length,
+  buffArray = [];
+
+  if (Object.prototype.toString.call(list) !== '[object Array]') {
+    for (var key in list) {
+      if (list.hasOwnProperty(key)) {
+        iterator(list[key], key, list)
+      }
+    }
+  } else {
+    for (var i = n - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = a[i];
+      a[i] = a[j];
+      a[j] = tmp;
+    }
+    for (var i = 0; i < list.length; i++) {
+      buffArray.push(list[randomNumber])
+    }
+
+  }
+//  Для тасования массива a из n элементов (индексы 0..n-1):
+//  для всех i от n − 1 до 1 выполнить
+//       j ← случайное число 0 ≤ j ≤ i
+//       обменять местами a[j] и a[i]
+
+
+  result = list
+  return result
+}
 function sSize(list){
   if (!list) return;
 
@@ -259,28 +334,102 @@ var  sSome = function (array, predicate) {
   return false;
 };
 
-sWhere = function (array, iterator) {
-  if (!array) return;
-  if (!iterator) return array;
+
+function sToArray (list) {
+  var buffArray = [], buffObject = {};
+
+
+  if (Object.prototype.toString.call(list) === '[object Arguments]'){
+    for (key in list) {
+      buffArray.push(list[key])
+    }
+  } else if (Object.prototype.toString.call(list) !== '[object Array]') {
+    for (key in list) {
+      if (list.hasOwnProperty(key)) {
+        buffObject[key] = list[key]
+        buffArray.push(buffObject)
+        buffObject = {}
+      }
+    }
+  } else {
+    for (key in list) {
+      buffArray.push(list[key])
+    }
+  }
+
+  return buffArray;
+};
+
+sWhere = function (list, properties) {
+  if (!list) return;
+  if (!properties) return;
   var buffArray = [];
 
-  if (Object.prototype.toString.call(array) !== '[object Array]') {
+  if (Object.prototype.toString.call(list) !== '[object Array]') {
+    for (var key in list) {
+      if (list.hasOwnProperty(key)) {
+//      Ромка и Игорь предложили Filter
 
-    for (var key in array) {
-      if (array.hasOwnProperty(key)) {
-        if (iterator(array[key], key, array)) {
-          buffArray.push(array[key])
-        }
       }
     }
 
   } else {
-    for (var i = 0; i < array.length; i++) {
-      if (iterator(array[i])) {
-        buffArray.push(array[i]);
-      }
+    for (var i = 0; i < list.length; i++) {
+        buffArray.push(sFilter(list[i], function(el, key, list) {
+                                 return el[key] === properties[key]
+                               }))
     }
   }
   return buffArray;
+}
+
+function sCompact (array) {
+  if (!array) return;
+  return sFilter(array, function (el) {
+    return !!el
+  });
+}
+function sFirst(array, n){
+  if (!array) return;
+  n = typeof n !== 'undefined' ? n : 1;
+
+  return array.slice(0, n)
+
+}
+function sInitial(array, n){
+  if (!array) return;
+  var length = array.length;
+  if (typeof n !== 'undefined') {
+    if ( n >= length){
+      n = length - 1
+    } else {
+      n = length - n
+    }
+  } else {
+    var n = length - 1
+  }
+
+  return array.slice(0, n)
+
+}
+function sLast(array, n){
+  if (!array) return;
+  if (typeof n !== 'undefined') {
+    if ( n >= array.length){
+      n = 0
+    } else {
+      n = array.length - n
+    }
+  } else {
+    n = array.length - 1
+  }
+  return array.slice(n, array.length)
+}
+function sRest(array, n){
+  if (!array) return;
+  var length = array.length;
+  n = typeof n !== 'undefined' ? n-1 : 1;
+
+  return array.slice(n, length)
 
 }

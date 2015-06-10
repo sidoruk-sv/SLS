@@ -4,11 +4,11 @@ function sInitial(array, n){
   if (typeof n !== 'undefined') {
     if ( n >= length){
       n = length - 1
-    } else {c
+    } else {
       n = length - n
     }
   } else {
-    n = length - 1
+    var n = length - 1
   }
 
   return array.slice(0, n)
