@@ -1,5 +1,5 @@
 function sForEach (array, iterator) {
-if (!array) return;
+  if (!array) return;
   if (!iterator) return;
 
   if (Object.prototype.toString.call(array) !== '[object Array]') {
