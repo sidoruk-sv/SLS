@@ -1,11 +1,15 @@
-function sSize(list){
+function sSize (list){
   if (!list) return;
+  var length = 0;
 
-  if (Object.prototype.toString.call(list) !== '[object Array]') {
-    var keys = Object.keys(list)
-    return keys.length
-  } else {
-    return list.length
+  if (typeof list === 'object') {
+    list = Object.keys(list)
   }
+
+  return list.reduce(function (memo, element){
+    if (element != null) { length += 1 }
+    memo = length
+    return memo
+  }, undefined)
 
 }
