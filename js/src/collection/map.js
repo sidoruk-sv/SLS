@@ -4,8 +4,8 @@ function sMap (list, iteratee) {
   var keys;
 
   if (list instanceof Array) {
-    return list.reduce(function(memo, element, b,v) {
-      result = iteratee(element)
+    return list.reduce(function(memo, element) {
+      var result = iteratee(element)
 
       if (typeof memo === 'undefined') {
         memo = [result]
@@ -14,13 +14,11 @@ function sMap (list, iteratee) {
       }
       return memo
     }, undefined);
-  }
-
-  if (typeof list === 'object') {
+  } else if (typeof list === 'object') {
     keys = Object.keys(list)
     return keys.reduce(function(memo, key) {
-      element = list[key]
-      result = iteratee(element)
+      var element = list[key]
+      var result = iteratee(element)
 
       if (typeof memo === 'undefined') {
         memo = [result]
