@@ -1,22 +1,34 @@
-function sMap (array, iterator) {
-  if (!array) return;
-  if (!iterator) return array;
-  var buffArray = [];
+function sMap (list, iteratee) {
+  if (!list) return;
+  if (!iteratee) return list;
+  var keys;
 
-  if (Object.prototype.toString.call(array) !== '[object Array]') {
+  if (list instanceof Array) {
+    return list.reduce(function(memo, element, b,v) {
+      result = iteratee(element)
 
-    for (var key in array) {
-      if (array.hasOwnProperty(key)) {
-        buffArray.push(iterator(array[key], key, array))
+      if (typeof memo === 'undefined') {
+        memo = [result]
+      } else {
+        memo.push(result)
       }
-    }
-
-  } else {
-
-    for (var i = 0; i < array.length; i++) {
-      buffArray[i] = iterator(array[i]);
-    }
-
+      return memo
+    }, undefined);
   }
-  return buffArray;
+
+  if (typeof list === 'object') {
+    keys = Object.keys(list)
+    return keys.reduce(function(memo, key) {
+      element = list[key]
+      result = iteratee(element)
+
+      if (typeof memo === 'undefined') {
+        memo = [result]
+      } else {
+        memo.push(result)
+      }
+      return memo
+    }, undefined);
+  }
+
 };
