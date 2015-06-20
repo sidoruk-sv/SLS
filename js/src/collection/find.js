@@ -1,20 +1,37 @@
-function sFind (array, iterator) {
-  if (!array) return;
-  if (!iterator) return array;
+function sFind (list, predicate) {
+  if (!list) return;
+  if (!predicate) return list;
+  var keys;
+  var searchElement;
+  var firstTime = true;
 
-  if (Object.prototype.toString.call(array) !== '[object Array]') {
-    for (var key in array) {
-      if (array.hasOwnProperty(key)) {
-        if (iterator(array[key])) {
-          return array[key];
-        }
+  if (list instanceof Array) {
+    list.reduce(function(memo, element) {
+      var isFinded = predicate(element)
+
+      if (isFinded && firstTime) {
+        searchElement = element
+        firstTime = false
       }
-    }
-  } else {
-    for (var i = 0; i < array.length; i++) {
-      if (iterator(array[i])) {
-        return array[i];
+      memo = element
+      return memo
+    }, undefined);
+  } else if (typeof list === 'object') {
+    keys = Object.keys(list)
+    keys.reduce(function(memo, key) {
+      var element = list[key]
+      var isFinded = predicate(element)
+
+      if (isFinded && firstTime) {
+        memo = {}
+        memo[key] = element
+        searchElement = memo
+        firstTime = false
       }
-    }
+      memo = element
+      return memo
+    }, undefined);
   }
+
+  return searchElement;
 };
